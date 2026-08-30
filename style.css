@@ -38,7 +38,8 @@ h1 {
     font-weight: bold;
     cursor: pointer;
     user-select: none;
-}
+    margin: 30px;
+
 
 .cislo:hover {
     color: #1565c0;
@@ -66,5 +67,6 @@ button {
 }
 .selected {
     color: green;
-    text-decoration: underline;
+    background-color: blue;
+    border-radius: 8px;
 }
