@@ -1,48 +1,91 @@
 <!DOCTYPE html>
 <html lang="cs">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abaku generátor</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
 
-<div class="container">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f2f2f2;
+            padding: 30px;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #vyraz {
+            font-size: 36px;
+            font-weight: bold;
+            min-height: 60px;
+            margin: 30px 0;
+        }
+
+        #cisla {
+            margin-top: 20px;
+        }
+
+        .cislo {
+            display: inline-block;
+            margin: 8px;
+            padding: 10px 15px;
+            border: 2px solid black;
+            border-radius: 10px;
+            background: white;
+            font-size: 32px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .selected {
+            background: gold;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
 
     <h1>Abaku generátor</h1>
 
-    <div class="buttons">
-        <button onclick="generateDigits(10)">10 číslic</button>
-        <button onclick="generateDigits(13)">13 číslic</button>
-        <button onclick="generateDigits(15)">15 číslic</button>
-        <button onclick="generateDigits(20)">20 číslic</button>
+    <div>
+        <button onclick="generuj(10)">10 čísel</button>
+        <button onclick="generuj(13)">13 čísel</button>
+        <button onclick="generuj(15)">15 čísel</button>
+        <button onclick="generuj(20)">20 čísel</button>
     </div>
 
-    <div id="result"></div>
+    <br>
 
-    <h2>Sestavované číslo</h2>
-    <div id="currentNumber"></div>
-
-    <button onclick="confirmNumber()">
-        Potvrdit číslo
-    </button>
-
-    <p id="selected"></p>
-
-    <div class="operators">
-        <button onclick="selectOperator('+')">+</button>
-        <button onclick="selectOperator('-')">−</button>
-        <button onclick="selectOperator('*')">×</button>
-        <button onclick="selectOperator('/')">÷</button>
-        <button onclick="equalPressed()">=</button>
+    <div>
+        <button onclick="pridejOperator('+')">+</button>
+        <button onclick="pridejOperator('-')">-</button>
+        <button onclick="pridejOperator('*')">×</button>
+        <button onclick="pridejOperator('/')">÷</button>
+        <button onclick="pridejOperator('=')">=</button>
     </div>
 
-    <p id="message"></p>
+    <br>
 
-</div>
+    <button onclick="vymazat()">Vymazat</button>
 
-<script src="script.js"></script>
+    <div id="vyraz"></div>
+
+    <div id="cisla"></div>
+
+    <script src="script.js"></script>
 
 </body>
+
 </html>
