@@ -4,9 +4,14 @@ function generuj(pocet) {
 
     const kontejner = document.getElementById("cisla");
 
-    kontejner.innerHTML = "";
-    vyraz = "";
+    if (!kontejner) {
+        console.error("Chybí element s id='cisla'");
+        return;
+    }
 
+    kontejner.innerHTML = "";
+
+    vyraz = "";
     aktualizujVyraz();
 
     for (let i = 0; i < pocet; i++) {
@@ -20,9 +25,11 @@ function generuj(pocet) {
 
         prvek.addEventListener("click", function () {
 
-            if (vyraz !== "") {
-                vyraz += " ";
+            if (prvek.classList.contains("selected")) {
+                return;
             }
+
+            prvek.classList.add("selected");
 
             vyraz += cislo;
 
@@ -35,30 +42,41 @@ function generuj(pocet) {
 
 function pridejOperator(operator) {
 
-    if (vyraz.trim() === "") {
+    if (vyraz.length === 0) {
         return;
     }
 
-    vyraz += " " + operator + " ";
+    vyraz += operator;
 
     aktualizujVyraz();
 }
 
 function aktualizujVyraz() {
 
-    document.getElementById("vyraz").textContent = vyraz;
+    const pole = document.getElementById("vyraz");
+
+    if (pole) {
+        pole.textContent = vyraz;
+    }
 }
 
 function vymazat() {
 
     vyraz = "";
+
+    document.querySelectorAll(".cislo").forEach(function (prvek) {
+        prvek.classList.remove("selected");
+    });
+
     aktualizujVyraz();
 }
+
 function zkontroluj() {
 
-   console.log("zkontroluj spuštěna");
-    alert(vyraz);
-}
+    if (!vyraz.includes("=")) {
+        alert("Chybí '='");
+        return;
+    }
 
     const casti = vyraz.split("=");
 
@@ -67,30 +85,37 @@ function zkontroluj() {
         return;
     }
 
-    const leva = casti[0].trim();
-    const prava = casti[1].trim();
-
-    if (prava === "") {
-        alert("Chybí výsledek");
-        return;
-    }
+    const leva = casti[0];
+    const prava = casti[1];
 
     try {
 
-        const vypocet = Function(
-            "return " + leva
-        )();
+        const vysledekLeve = eval(leva);
+        const vysledekPrave = Number(prava);
 
-        const vysledek = Number(prava);
+        if (vysledekLeve === vysledekPrave) {
 
-        if (vypocet === vysledek) {
             alert("✅ Správně");
+
         } else {
-            alert("❌ Špatně");
+
+            alert(
+                "❌ Špatně\n\n" +
+                vysledekLeve +
+                " ≠ " +
+                vysledekPrave
+            );
+
         }
 
-    } catch {
+    } catch (e) {
+
+        console.error(e);
         alert("Neplatný výraz");
+
     }
 }
-generuj(10);
+
+window.onload = function () {
+    generuj(10);
+};
