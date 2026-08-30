@@ -1,187 +1,81 @@
-let firstNumber = null;
-let secondNumber = null;
-let resultNumber = null;
-let operator = null;
+let vyraz = "";
 
-let stage = "first";
-let currentDigits = [];
-let selectedIndexes = [];
+function generuj(pocet) {
 
-function generateDigits(count) {
+    const kontejner = document.getElementById("cisla");
 
-    const result = document.getElementById("result");
-    result.innerHTML = "";
+    kontejner.innerHTML = "";
+    vyraz = "";
 
-    for (let i = 0; i < count; i++) {
+    aktualizujVyraz();
 
-        const digit = Math.floor(Math.random() * 10);
+    for (let i = 0; i < pocet; i++) {
 
-        const span = document.createElement("span");
+        const cislo = Math.floor(Math.random() * 99) + 1;
 
-        span.textContent = digit;
-        span.className = "digit";
-        span.dataset.index = i;
+        const prvek = document.createElement("div");
 
-        span.addEventListener("click", function () {
-            selectDigit(span, digit);
+        prvek.className = "cislo";
+        prvek.textContent = cislo;
+
+        prvek.addEventListener("click", function () {
+
+            if (prvek.classList.contains("selected")) {
+                return;
+            }
+
+            prvek.classList.add("selected");
+
+            if (vyraz.length > 0) {
+                vyraz += " ";
+            }
+
+            vyraz += cislo;
+
+            aktualizujVyraz();
         });
 
-        result.appendChild(span);
+        kontejner.appendChild(prvek);
     }
-
-    resetCalculation();
 }
 
-function selectDigit(element, digit) {
+function pridejOperator(operator) {
 
-    const index = Number(element.dataset.index);
-
-    if (selectedIndexes.length > 0) {
-
-        const lastIndex =
-            selectedIndexes[selectedIndexes.length - 1];
-
-        if (Math.abs(index - lastIndex) !== 1) {
-
-            alert("Můžeš vybírat pouze sousední číslice.");
-
-            return;
-        }
-    }
-
-    selectedIndexes.push(index);
-    currentDigits.push(digit);
-
-    element.classList.add("selected-digit");
-
-    updateCurrentNumber();
-}
-function updateCurrentNumber() {
-
-    document.getElementById("currentNumber").textContent =
-        currentDigits.join("");
-}
-
-function confirmNumber() {
-
-    if (currentDigits.length === 0) return;
-
-    const value = Number(currentDigits.join(""));
-
-    if (stage === "first") {
-
-        firstNumber = value;
-        stage = "operator";
-
-    } else if (stage === "second") {
-
-        secondNumber = value;
-        stage = "equals";
-
-    } else if (stage === "result") {
-
-        resultNumber = value;
-        checkResult();
+    if (vyraz.trim() === "") {
         return;
     }
 
-    currentDigits = [];
+    const posledniZnak = vyraz.trim().slice(-1);
 
-    document.getElementById("currentNumber").textContent = "";
+    if (
+        posledniZnak === "+" ||
+        posledniZnak === "-" ||
+        posledniZnak === "*" ||
+        posledniZnak === "/" ||
+        posledniZnak === "="
+    ) {
+        return;
+    }
 
-    clearSelectedDigits();
+    vyraz += " " + operator + " ";
 
-    updateDisplay();
+    aktualizujVyraz();
 }
 
-function clearSelectedDigits() {
+function aktualizujVyraz() {
 
-    document.querySelectorAll(".digit").forEach(d => {
-        d.classList.remove("selected-digit");
+    document.getElementById("vyraz").textContent = vyraz;
+}
+
+function vymazat() {
+
+    vyraz = "";
+
+    document.querySelectorAll(".cislo").forEach(prvek => {
+        prvek.classList.remove("selected");
     });
+
+    aktualizujVyraz();
 }
 
-function selectOperator(op) {
-
-    if (stage !== "operator") return;
-
-    operator = op;
-
-    stage = "second";
-
-    updateDisplay();
-}
-
-function equalPressed() {
-
-    if (stage === "equals") {
-        stage = "result";
-    }
-}
-
-function updateDisplay() {
-
-    document.getElementById("selected").textContent =
-        ${firstNumber ?? ""} ${operator ?? ""} ${secondNumber ?? ""};
-}
-
-function checkResult() {
-
-    let correct;
-
-    switch (operator) {
-
-        case "+":
-            correct = firstNumber + secondNumber;
-            break;
-
-        case "-":
-            correct = firstNumber - secondNumber;
-            break;
-
-        case "*":
-            correct = firstNumb*r * secondNumber;
-            brea*;
-
-        case "/":
-            c*rrect = firstNumber / secondNumber*
-            break;
-
-        defau*t:
-            return;
-    }
-
-    const message = document.getElementById("message");
-
-    if (correct === resultNumber) {
-
-        message.textContent =
-            `✅ Správně! ${firstNumber} ${operator} ${secondNumber} = ${resultNumber}`;
-
-        message.style.color = "green";
-
-    } else {
-
-        message.textContent =
-            `❌ Špatně! ${firstNumber} ${operator} ${secondNumber} = ${resultNumber}. Správně je ${correct}`;
-
-        message.style.color = "red";
-    }
-}
-
-function resetCalculation() {
-
-    firstNumber = null;
-    secondNumber = null;
-    resultNumber = null;
-    operator = null;
-
-    currentDigits = [];
-    selectedIndexes = [];
-
-    stage = "first";
-
-    document.getElementById("selected").textContent = "";
-    document.getElementById("message").textContent = "";
-    document.getElementById("currentNumber").textContent = "";
-}
+generuj(10);
