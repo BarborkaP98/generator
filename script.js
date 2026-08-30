@@ -20,12 +20,6 @@ function generuj(pocet) {
 
         prvek.addEventListener("click", function () {
 
-            if (prvek.classList.contains("selected")) {
-                return;
-            }
-
-            prvek.classList.add("selected");
-
             if (vyraz.length > 0) {
                 vyraz += " ";
             }
@@ -33,6 +27,7 @@ function generuj(pocet) {
             vyraz += cislo;
 
             aktualizujVyraz();
+
         });
 
         kontejner.appendChild(prvek);
@@ -42,18 +37,6 @@ function generuj(pocet) {
 function pridejOperator(operator) {
 
     if (vyraz.trim() === "") {
-        return;
-    }
-
-    const posledniZnak = vyraz.trim().slice(-1);
-
-    if (
-        posledniZnak === "+" ||
-        posledniZnak === "-" ||
-        posledniZnak === "*" ||
-        posledniZnak === "/" ||
-        posledniZnak === "="
-    ) {
         return;
     }
 
@@ -70,10 +53,6 @@ function aktualizujVyraz() {
 function vymazat() {
 
     vyraz = "";
-
-    document.querySelectorAll(".cislo").forEach(prvek => {
-        prvek.classList.remove("selected");
-    });
 
     aktualizujVyraz();
 }
