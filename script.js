@@ -118,3 +118,16 @@ function resetCalculation() {
     document.getElementById("selected").textContent = "";
     document.getElementById("message").textContent = "";
 }
+let vybranaCisla = [];
+
+function vyberCislo(element) {
+    element.classList.toggle("selected");
+
+    const hodnota = element.dataset.value;
+
+    if (element.classList.contains("selected")) {
+        vybranaCisla.push(hodnota);
+    } else {
+        vybranaCisla = vybranaCisla.filter(x => x !== hodnota);
+    }
+}
