@@ -54,5 +54,44 @@ function vymazat() {
     vyraz = "";
     aktualizujVyraz();
 }
+function zkontroluj() {
 
+    if (!vyraz.includes("=")) {
+        alert("Ve výrazu chybí '='");
+        return;
+    }
+
+    const casti = vyraz.split("=");
+
+    if (casti.length !== 2) {
+        alert("Neplatný výraz");
+        return;
+    }
+
+    const leva = casti[0].trim();
+    const prava = casti[1].trim();
+
+    if (prava === "") {
+        alert("Chybí výsledek");
+        return;
+    }
+
+    try {
+
+        const vypocet = Function(
+            "return " + leva
+        )();
+
+        const vysledek = Number(prava);
+
+        if (vypocet === vysledek) {
+            alert("✅ Správně");
+        } else {
+            alert("❌ Špatně");
+        }
+
+    } catch {
+        alert("Neplatný výraz");
+    }
+}
 generuj(10);
