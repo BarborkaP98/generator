@@ -35,7 +35,9 @@ h1 {
 }
 
 .cislo {
-    font-size: 56px;
+    display: inline-block;
+    margin: 10px;
+    font-size: 42px;
     font-weight: bold;
     cursor: pointer;
     user-select: none;
@@ -66,4 +68,8 @@ h1 {
 
 button {
     cursor: pointer;
+}
+.selected {
+    color: green;
+    text-decoration: underline;
 }
