@@ -122,7 +122,7 @@ function equalPressed() {
 function updateDisplay() {
 
     document.getElementById("selected").textContent =
-        `${firstNumber ?? ""} ${operator ?? ""} ${secondNumber ?? ""}`;
+        ${firstNumber ?? ""} ${operator ?? ""} ${secondNumber ?? ""};
 }
 
 function checkResult() {
