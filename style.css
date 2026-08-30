@@ -70,3 +70,8 @@ button {
     background-color: blue;
     border-radius: 8px;
 }
+#vysledek {
+    margin-top: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
