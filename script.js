@@ -23,19 +23,18 @@ function generuj(pocet) {
         prvek.className = "cislo";
         prvek.textContent = cislo;
 
-        prvek.addEventListener("click", function () {
+   prvek.addEventListener("click", function () {
 
-            if (prvek.classList.contains("selected")) {
-                return;
-            }
+    prvek.classList.add("selected");
 
-            prvek.classList.add("selected");
+    if (vyraz !== "") {
+        vyraz += " ";
+    }
 
-            vyraz += cislo;
+    vyraz += cislo;
 
-            aktualizujVyraz();
-        });
-
+    aktualizujVyraz();
+});
         kontejner.appendChild(prvek);
     }
 }
