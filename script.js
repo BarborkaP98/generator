@@ -1,10 +1,9 @@
+function generateDigits(count) {
+    let result = "";
 
-function generateAbaku() {
-    const a = Math.floor(Math.random() * 10);
-    const b = Math.floor(Math.random() * 10);
-    const result = a + b;
+    for (let i = 0; i < count; i++) {
+        result += Math.floor(Math.random() * 10);
+    }
 
-    return `${a}${b}${result}`;
+    document.getElementById("result").textContent = result;
 }
-
-console.log(generateAbaku());
