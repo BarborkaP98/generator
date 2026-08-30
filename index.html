@@ -2,29 +2,24 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <title>Generátory Abaku</title>
+    <title>Abaku generátor</title>
+    style.css
 </head>
 <body>
 
+<div class="container">
     <h1>Abaku generátor</h1>
 
-    <h2>Generování řad číslic</h2>
+    <div class="buttons">
+        <button onclick="generateDigits(10)">10 číslic</button>
+        <button onclick="generateDigits(13)">13 číslic</button>
+        <button onclick="generateDigits(15)">15 číslic</button>
+    </div>
 
-    <button onclick="generateDigits(10)">
-        Generovat 10 číslic
-    </button>
+    <div id="result">Klikni na tlačítko</div>
+</div>
 
-    <button onclick="generateDigits(13)">
-        Generovat 13 číslic
-    </button>
-
-    <button onclick="generateDigits(15)">
-        Generovat 15 číslic
-    </button>
-
-    <p id="result"></p>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
