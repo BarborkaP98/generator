@@ -13,21 +13,20 @@ function generuj(pocet) {
 
         const cislo = Math.floor(Math.random() * 10);
 
-        const prvek = document.createElement("div");
+        const prvek = document.createElement("span");
 
         prvek.className = "cislo";
         prvek.textContent = cislo;
 
         prvek.addEventListener("click", function () {
 
-            if (vyraz.length > 0) {
+            if (vyraz !== "") {
                 vyraz += " ";
             }
 
             vyraz += cislo;
 
             aktualizujVyraz();
-
         });
 
         kontejner.appendChild(prvek);
@@ -53,7 +52,6 @@ function aktualizujVyraz() {
 function vymazat() {
 
     vyraz = "";
-
     aktualizujVyraz();
 }
 
