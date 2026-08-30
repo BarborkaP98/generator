@@ -1,166 +1,48 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Abaku generátor</title>
-
-<style>
-
-body{
-    font-family: Arial, sans-serif;
-    text-align:center;
-    background:#f4f4f4;
-    padding:30px;
-}
-
-h1{
-    margin-bottom:30px;
-}
-
-button{
-    padding:10px 20px;
-    margin:5px;
-    cursor:pointer;
-    font-size:18px;
-}
-
-#cisla{
-    margin-top:40px;
-}
-
-.cislo{
-    display:inline-block;
-    margin:8px;
-    padding:10px 15px;
-    border:2px solid black;
-    border-radius:10px;
-    background:white;
-    font-size:36px;
-    cursor:pointer;
-    user-select:none;
-}
-
-.cislo.selected{
-    background:gold;
-}
-
-#vyraz{
-    margin-top:30px;
-    min-height:50px;
-    font-size:36px;
-    font-weight:bold;
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abaku generátor</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Abaku generátor</h1>
+<div class="container">
 
-<div>
+    <h1>Abaku generátor</h1>
 
-<button onclick="generuj(10)">10 čísel</button>
-<button onclick="generuj(13)">13 čísel</button>
-<button onclick="generuj(15)">15 čísel</button>
-<button onclick="generuj(20)">20 čísel</button>
+    <div class="buttons">
+        <button onclick="generateDigits(10)">10 číslic</button>
+        <button onclick="generateDigits(13)">13 číslic</button>
+        <button onclick="generateDigits(15)">15 číslic</button>
+        <button onclick="generateDigits(20)">20 číslic</button>
+    </div>
+
+    <div id="result"></div>
+
+    <h2>Sestavované číslo</h2>
+    <div id="currentNumber"></div>
+
+    <button onclick="confirmNumber()">
+        Potvrdit číslo
+    </button>
+
+    <p id="selected"></p>
+
+    <div class="operators">
+        <button onclick="selectOperator('+')">+</button>
+        <button onclick="selectOperator('-')">−</button>
+        <button onclick="selectOperator('*')">×</button>
+        <button onclick="selectOperator('/')">÷</button>
+        <button onclick="equalPressed()">=</button>
+    </div>
+
+    <p id="message"></p>
 
 </div>
 
-<br>
-
-<div>
-
-<button onclick="pridej('+')">+</button>
-<button onclick="pridej('-')">-</button>
-<button onclick="pridej('*')">×</button>
-<button onclick="pridej('/')">÷</button>
-<button onclick="pridej('=')">=</button>
-
-</div>
-
-<br>
-
-<button onclick="vymazat()">Vymazat</button>
-
-<div id="vyraz"></div>
-
-<div id="cisla"></div>
-
-<script>
-
-let vyraz = "";
-
-function generuj(pocet){
-
-    const kontejner = document.getElementById("cisla");
-
-    kontejner.innerHTML = "";
-    vyraz = "";
-
-    zobrazVyraz();
-
-    for(let i=0;i<pocet;i++){
-
-        const cislo = Math.floor(Math.random()*99)+1;
-
-        const prvek = document.createElement("div");
-
-        prvek.className = "cislo";
-        prvek.textContent = cislo;
-
-        prvek.addEventListener("click",function(){
-
-            if(prvek.classList.contains("selected")){
-                return;
-            }
-
-            prvek.classList.add("selected");
-
-            vyraz += cislo;
-            zobrazVyraz();
-
-        });
-
-        kontejner.appendChild(prvek);
-    }
-}
-
-function pridej(operator){
-
-    if(vyraz.length===0){
-        return;
-    }
-
-    vyraz += " " + operator + " ";
-
-    zobrazVyraz();
-}
-
-function zobrazVyraz(){
-
-    document.getElementById("vyraz").textContent = vyraz;
-
-}
-
-function vymazat(){
-
-    vyraz = "";
-
-    document.querySelectorAll(".cislo").forEach(cislo => {
-
-        cislo.classList.remove("selected");
-
-    });
-
-    zobrazVyraz();
-
-}
-
-generuj(10);
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
