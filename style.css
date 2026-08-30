@@ -27,17 +27,14 @@ h1 {
 }
 
 #cisla {
-    display: flex;
     justify-content: center;
-    flex-wrap: nowrap;
     gap: 20px;
     margin: 40px 0;
 }
 
 .cislo {
-    display: inline-block;
-    margin: 10px;
-    font-size: 42px;
+    display: inline;
+    font-size: 56px;
     font-weight: bold;
     cursor: pointer;
     user-select: none;
@@ -59,8 +56,6 @@ h1 {
 }
 
 .operators button {
-    width: 70px;
-    height: 70px;
     font-size: 28px;
     margin: 5px;
     cursor: pointer;
