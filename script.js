@@ -74,7 +74,8 @@ function vymazat() {
 function zkontroluj() {
 
     if (!vyraz.includes("=")) {
-        alert("Chybí '='");
+       document.getElementById("vysledek").textContent =
+    "Chybí '='";
         return;
     }
 
@@ -96,16 +97,12 @@ function zkontroluj() {
 
         if (vysledekLeve === vysledekPrave) {
 
-            alert("✅ Správně");
-
+           document.getElementById("vysledek").innerHTML =
+    "<span style='color:green'>✅ Správně</span>";
         } else {
 
-            alert(
-                "❌ Špatně\n\n" +
-                vysledekLeve +
-                " ≠ " +
-                vysledekPrave
-            );
+            document.getElementById("vysledek").innerHTML =
+    "<span style='color:red'>❌ Špatně</span>";
 
         }
 
