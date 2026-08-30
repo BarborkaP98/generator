@@ -56,10 +56,9 @@ function vymazat() {
 }
 function zkontroluj() {
 
-    if (!vyraz.includes("=")) {
-        alert("Ve výrazu chybí '='");
-        return;
-    }
+   console.log("zkontroluj spuštěna");
+    alert(vyraz);
+}
 
     const casti = vyraz.split("=");
 
