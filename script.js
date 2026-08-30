@@ -89,6 +89,7 @@ function selectOperator(op) {
     if (stage !== "operator") return;
 
     operator = op;
+
     stage = "second";
 
     updateDisplay();
@@ -99,8 +100,6 @@ function equalPressed() {
     if (stage === "equals") {
         stage = "result";
     }
-
-    updateDisplay();
 }
 
 function updateDisplay() {
@@ -124,12 +123,15 @@ function checkResult() {
             break;
 
         case "*":
-            correct = firstNumber * secondNumber;
-            break;
+            correct = firstNumb*r * secondNumber;
+            brea*;
 
         case "/":
-            correct = firstNumber / secondNumber;
+            c*rrect = firstNumber / secondNumber*
             break;
+
+        defau*t:
+            return;
     }
 
     const message = document.getElementById("message");
@@ -144,4 +146,24 @@ function checkResult() {
     } else {
 
         message.textContent =
-            `❌ Špatně! ${firstNumber} ${operator} ${secondNumber} = ${resultNumber}. Správně je ${correct
+            `❌ Špatně! ${firstNumber} ${operator} ${secondNumber} = ${resultNumber}. Správně je ${correct}`;
+
+        message.style.color = "red";
+    }
+}
+
+function resetCalculation() {
+
+    firstNumber = null;
+    secondNumber = null;
+    resultNumber = null;
+    operator = null;
+
+    currentDigits = [];
+
+    stage = "first";
+
+    document.getElementById("selected").textContent = "";
+    document.getElementById("message").textContent = "";
+    document.getElementById("currentNumber").textContent = "";
+}
