@@ -1,7 +1,6 @@
 let vyraz = "";
 
 function generuj(pocet) {
-
     const kontejner = document.getElementById("cisla");
 
     kontejner.innerHTML = "";
@@ -10,7 +9,6 @@ function generuj(pocet) {
     aktualizujVyraz();
 
     for (let i = 0; i < pocet; i++) {
-
         const cislo = Math.floor(Math.random() * 99) + 1;
 
         const prvek = document.createElement("div");
@@ -45,14 +43,14 @@ function pridejOperator(operator) {
         return;
     }
 
-    const posledniZnak = vyraz.trim().slice(-1);
+    const posledni = vyraz.trim().slice(-1);
 
     if (
-        posledniZnak === "+" ||
-        posledniZnak === "-" ||
-        posledniZnak === "*" ||
-        posledniZnak === "/" ||
-        posledniZnak === "="
+        posledni === "+" ||
+        posledni === "-" ||
+        posledni === "*" ||
+        posledni === "/" ||
+        posledni === "="
     ) {
         return;
     }
@@ -63,7 +61,6 @@ function pridejOperator(operator) {
 }
 
 function aktualizujVyraz() {
-
     document.getElementById("vyraz").textContent = vyraz;
 }
 
@@ -71,7 +68,7 @@ function vymazat() {
 
     vyraz = "";
 
-    document.querySelectorAll(".cislo").forEach(prvek => {
+    document.querySelectorAll(".cislo").forEach(function(prvek) {
         prvek.classList.remove("selected");
     });
 
