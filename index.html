@@ -18,7 +18,19 @@
             <button onclick="generateDigits(15)">15 číslic</button>
             <button onclick="generateDigits(20)">20 číslic</button>
         </div>
+<div id="calculation">
+    <p id="selected"></p>
 
+    <div class="operators">
+        <button onclick="selectOperator('+')">+</button>
+        <button onclick="selectOperator('-')">−</button>
+        <button onclick="selectOperator('*')">×</button>
+        <button onclick="selectOperator('/')">÷</button>
+        <button onclick="checkResult()">=</button>
+    </div>
+
+    <p id="message"></p>
+</div>
         <div id="result">
             Klikni na tlačítko
         </div>
