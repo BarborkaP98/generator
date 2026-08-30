@@ -90,7 +90,8 @@ function zkontroluj() {
 
     try {
 
-        const vysledekLeve = eval(leva);
+        const vyrazProVypocet = leva.replace(/:/g, "/");
+        const vysledekLeve = eval(vyrazProVypocet);
         const vysledekPrave = Number(prava);
 
         if (vysledekLeve === vysledekPrave) {
