@@ -1,44 +1,206 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abaku generátor</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abaku generátor</title>
 
-    <link rel="stylesheet" href="style.css">
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+    background:#f0f0f0;
+    padding:40px;
+}
+
+h1{
+    margin-bottom:30px;
+}
+
+button{
+    padding:12px 20px;
+    margin:5px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+#cisla{
+    margin-top:40px;
+}
+
+.cislo{
+    display:inline-block;
+    margin:8px;
+    padding:10px 15px;
+    border:2px solid black;
+    border-radius:8px;
+    background:white;
+    font-size:32px;
+    cursor:pointer;
+    user-select:none;
+}
+
+.selected{
+    background:gold;
+}
+
+#priklad{
+    margin-top:30px;
+    font-size:40px;
+    min-height:50px;
+    font-weight:bold;
+}
+
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Abaku generátor</h1>
+<h1>Abaku generátor</h1>
 
-        <div class="buttons">
-            <button onclick="generateDigits(10)">10 číslic</button>
-            <button onclick="generateDigits(13)">13 číslic</button>
-            <button onclick="generateDigits(15)">15 číslic</button>
-            <button onclick="generateDigits(20)">20 číslic</button>
-        </div>
+<button onclick="generuj(10)">10 čísel</button>
+<button onclick="generuj(13)">13 čísel</button>
+<button onclick="generuj(15)">15 čísel</button>
+<button onclick="generuj(20)">20 čísel</button>
 
-        <div id="result">
-            Klikni na tlačítko
-        </div>
-    </div>
-<div id="calculation">
-    <p id="selected"></p>
+<br><br>
 
-    <div class="operators">
-        <button onclick="selectOperator('+')">+</button>
-        <button onclick="selectOperator('-')">−</button>
-        <button onclick="selectOperator('*')">×</button>
-        <button onclick="selectOperator('/')">÷</button>
-        <button onclick="checkResult()">=</button>
-    </div>
+<button onclick="pridejOperator('+')">+</button>
+<button onclick="pridejOperator('-')">-</button>
+<button onclick="pridejOperator('*')">×</button>
+<button onclick="pridejOperator('/')">÷</button>
+<button onclick="pridejOperator('=')">=</button>
 
-    <p id="message"></p>
-</div>
-    <div class="cislo" data-value="6" onclick="vyberCislo(this)">6</div>
+<button onclick="smazatPosledni()">⌫</button>
+<button onclick="vymazatVse()">Vymazat</button>
+<button onclick="zkontroluj()">Ověřit</button>
 
-    <script src="script.js"></script>
+<div id="priklad"></div>
+
+<div id="cisla"></div>
+
+<script>
+
+let vyraz = "";
+
+function generuj(pocet){
+
+    const kontejner = document.getElementById("cisla");
+    kontejner.innerHTML = "";
+
+    vyraz = "";
+    aktualizujVyraz();
+
+    for(let i=0;i<pocet;i++){
+
+        const cislo = Math.floor(Math.random()*99)+1;
+
+        const div = document.createElement("div");
+        div.className = "cislo";
+        div.textContent = cislo;
+
+        div.onclick = function(){
+
+            if(div.classList.contains("selected")){
+                return;
+            }
+
+            div.classList.add("selected");
+
+            vyraz += cislo;
+            aktualizujVyraz();
+
+        };
+
+        kontejner.appendChild(div);
+    }
+}
+
+function pridejOperator(op){
+
+    if(vyraz.length===0){
+        return;
+    }
+
+    vyraz += " " + op + " ";
+    aktualizujVyraz();
+}
+
+function aktualizujVyraz(){
+    document.getElementById("priklad").textContent = vyraz;
+}
+
+function smazatPosledni(){
+
+    vyraz = vyraz.trim();
+
+    const casti = vyraz.split(" ");
+
+    casti.pop();
+
+    vyraz = casti.join(" ");
+
+    aktualizujVyraz();
+}
+
+function vymazatVse(){
+
+    vyraz = "";
+
+    document.querySelectorAll(".cislo").forEach(c=>{
+
+        c.classList.remove("selected");
+
+    });
+
+    aktualizujVyraz();
+}
+
+function zkontroluj(){
+
+    try{
+
+        const casti = vyraz.split("=");
+
+        if(casti.length !== 2){
+            alert("Musíš použít '='");
+            return;
+        }
+
+        let leva = casti[0]
+            .replace(/×/g,"*")
+            .replace(/÷/g,"/");
+
+        const vysledekLeva = eval(leva);
+        const vysledekPrava = Number(casti[1].trim());
+
+        if(vysledekLeva === vysledekPrava){
+
+            alert("✅ Správně");
+
+        }else{
+
+            alert(
+                "❌ Špatně\n\n" +
+                vysledekLeva +
+                " ≠ " +
+                vysledekPrava
+            );
+
+        }
+
+    }catch(error){
+
+        alert("Neplatný výraz");
+
+        console.log(error);
+    }
+
+}
+
+generuj(10);
+
+</script>
 
 </body>
 </html>
