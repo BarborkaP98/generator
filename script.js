@@ -5,6 +5,7 @@ let operator = null;
 
 let stage = "first";
 let currentDigits = [];
+let selectedIndexes = [];
 
 function generateDigits(count) {
 
@@ -19,6 +20,7 @@ function generateDigits(count) {
 
         span.textContent = digit;
         span.className = "digit";
+        span.dataset.index = i;
 
         span.addEventListener("click", function () {
             selectDigit(span, digit);
@@ -32,13 +34,28 @@ function generateDigits(count) {
 
 function selectDigit(element, digit) {
 
+    const index = Number(element.dataset.index);
+
+    if (selectedIndexes.length > 0) {
+
+        const lastIndex =
+            selectedIndexes[selectedIndexes.length - 1];
+
+        if (Math.abs(index - lastIndex) !== 1) {
+
+            alert("Můžeš vybírat pouze sousední číslice.");
+
+            return;
+        }
+    }
+
+    selectedIndexes.push(index);
     currentDigits.push(digit);
 
     element.classList.add("selected-digit");
 
     updateCurrentNumber();
 }
-
 function updateCurrentNumber() {
 
     document.getElementById("currentNumber").textContent =
@@ -160,6 +177,7 @@ function resetCalculation() {
     operator = null;
 
     currentDigits = [];
+    selectedIndexes = [];
 
     stage = "first";
 
