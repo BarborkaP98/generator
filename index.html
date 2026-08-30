@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Abaku generátor</title>
 
 <style>
@@ -10,8 +11,8 @@
 body{
     font-family: Arial, sans-serif;
     text-align:center;
-    background:#f0f0f0;
-    padding:40px;
+    background:#f4f4f4;
+    padding:30px;
 }
 
 h1{
@@ -19,10 +20,10 @@ h1{
 }
 
 button{
-    padding:12px 20px;
+    padding:10px 20px;
     margin:5px;
-    font-size:18px;
     cursor:pointer;
+    font-size:18px;
 }
 
 #cisla{
@@ -34,21 +35,21 @@ button{
     margin:8px;
     padding:10px 15px;
     border:2px solid black;
-    border-radius:8px;
+    border-radius:10px;
     background:white;
-    font-size:32px;
+    font-size:36px;
     cursor:pointer;
     user-select:none;
 }
 
-.selected{
+.cislo.selected{
     background:gold;
 }
 
-#priklad{
+#vyraz{
     margin-top:30px;
-    font-size:40px;
     min-height:50px;
+    font-size:36px;
     font-weight:bold;
 }
 
@@ -58,24 +59,32 @@ button{
 
 <h1>Abaku generátor</h1>
 
+<div>
+
 <button onclick="generuj(10)">10 čísel</button>
 <button onclick="generuj(13)">13 čísel</button>
 <button onclick="generuj(15)">15 čísel</button>
 <button onclick="generuj(20)">20 čísel</button>
 
-<br><br>
+</div>
 
-<button onclick="pridejOperator('+')">+</button>
-<button onclick="pridejOperator('-')">-</button>
-<button onclick="pridejOperator('*')">×</button>
-<button onclick="pridejOperator('/')">÷</button>
-<button onclick="pridejOperator('=')">=</button>
+<br>
 
-<button onclick="smazatPosledni()">⌫</button>
-<button onclick="vymazatVse()">Vymazat</button>
-<button onclick="zkontroluj()">Ověřit</button>
+<div>
 
-<div id="priklad"></div>
+<button onclick="pridej('+')">+</button>
+<button onclick="pridej('-')">-</button>
+<button onclick="pridej('*')">×</button>
+<button onclick="pridej('/')">÷</button>
+<button onclick="pridej('=')">=</button>
+
+</div>
+
+<br>
+
+<button onclick="vymazat()">Vymazat</button>
+
+<div id="vyraz"></div>
 
 <div id="cisla"></div>
 
@@ -86,115 +95,66 @@ let vyraz = "";
 function generuj(pocet){
 
     const kontejner = document.getElementById("cisla");
-    kontejner.innerHTML = "";
 
+    kontejner.innerHTML = "";
     vyraz = "";
-    aktualizujVyraz();
+
+    zobrazVyraz();
 
     for(let i=0;i<pocet;i++){
 
         const cislo = Math.floor(Math.random()*99)+1;
 
-        const div = document.createElement("div");
-        div.className = "cislo";
-        div.textContent = cislo;
+        const prvek = document.createElement("div");
 
-        div.onclick = function(){
+        prvek.className = "cislo";
+        prvek.textContent = cislo;
 
-            if(div.classList.contains("selected")){
+        prvek.addEventListener("click",function(){
+
+            if(prvek.classList.contains("selected")){
                 return;
             }
 
-            div.classList.add("selected");
+            prvek.classList.add("selected");
 
             vyraz += cislo;
-            aktualizujVyraz();
+            zobrazVyraz();
 
-        };
+        });
 
-        kontejner.appendChild(div);
+        kontejner.appendChild(prvek);
     }
 }
 
-function pridejOperator(op){
+function pridej(operator){
 
     if(vyraz.length===0){
         return;
     }
 
-    vyraz += " " + op + " ";
-    aktualizujVyraz();
+    vyraz += " " + operator + " ";
+
+    zobrazVyraz();
 }
 
-function aktualizujVyraz(){
-    document.getElementById("priklad").textContent = vyraz;
+function zobrazVyraz(){
+
+    document.getElementById("vyraz").textContent = vyraz;
+
 }
 
-function smazatPosledni(){
-
-    vyraz = vyraz.trim();
-
-    const casti = vyraz.split(" ");
-
-    casti.pop();
-
-    vyraz = casti.join(" ");
-
-    aktualizujVyraz();
-}
-
-function vymazatVse(){
+function vymazat(){
 
     vyraz = "";
 
-    document.querySelectorAll(".cislo").forEach(c=>{
+    document.querySelectorAll(".cislo").forEach(cislo => {
 
-        c.classList.remove("selected");
+        cislo.classList.remove("selected");
 
     });
 
-    aktualizujVyraz();
-}
-
-function zkontroluj(){
-
-    try{
-
-        const casti = vyraz.split("=");
-
-        if(casti.length !== 2){
-            alert("Musíš použít '='");
-            return;
-        }
-
-        let leva = casti[0]
-            .replace(/×/g,"*")
-            .replace(/÷/g,"/");
-
-        const vysledekLeva = eval(leva);
-        const vysledekPrava = Number(casti[1].trim());
-
-        if(vysledekLeva === vysledekPrava){
-
-            alert("✅ Správně");
-
-        }else{
-
-            alert(
-                "❌ Špatně\n\n" +
-                vysledekLeva +
-                " ≠ " +
-                vysledekPrava
-            );
-
-        }
-
-    }catch(error){
-
-        alert("Neplatný výraz");
-
-        console.log(error);
-    }
+    zobrazVyraz();
 
 }
 
