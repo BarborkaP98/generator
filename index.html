@@ -2,24 +2,28 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abaku generátor</title>
-    style.css
+
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-    <h1>Abaku generátor</h1>
+    <div class="container">
+        <h1>Abaku generátor</h1>
 
-    <div class="buttons">
-        <button onclick="generateDigits(10)">10 číslic</button>
-        <button onclick="generateDigits(13)">13 číslic</button>
-        <button onclick="generateDigits(15)">15 číslic</button>
+        <div class="buttons">
+            <button onclick="generateDigits(10)">10 číslic</button>
+            <button onclick="generateDigits(13)">13 číslic</button>
+            <button onclick="generateDigits(15)">15 číslic</button>
+        </div>
+
+        <div id="result">
+            Klikni na tlačítko
+        </div>
     </div>
 
-    <div id="result">Klikni na tlačítko</div>
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
 </html>
