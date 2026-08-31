@@ -116,17 +116,28 @@ function zkontroluj() {
 
         const pravaStrana = Number(prava);
 
-        if (levaStrana === pravaStrana) {
+if (levaStrana === pravaStrana) {
 
-            vysledekDiv.style.color = "green";
-            vysledekDiv.textContent = "Spravne";
+    vysledekDiv.style.color = "green";
+    vysledekDiv.textContent = "Spravne";
 
-        } else {
+    const historie = document.getElementById("historie");
 
-            vysledekDiv.style.color = "red";
-            vysledekDiv.textContent = "Spatne";
+    const novyZaznam = document.createElement("div");
+    novyZaznam.className = "zaznam";
+    novyZaznam.textContent = vyraz;
 
-        }
+    historie.prepend(novyZaznam);
+
+    vyraz = "";
+    aktualizujVyraz();
+
+} else {
+
+    vysledekDiv.style.color = "red";
+    vysledekDiv.textContent = "Spatne";
+
+}
 
     } catch {
 
