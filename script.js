@@ -1,18 +1,16 @@
 let vyraz = "";
 
 function generuj(pocet) {
-
     const kontejner = document.getElementById("cisla");
+    const vysledekDiv = document.getElementById("vysledek");
 
     kontejner.innerHTML = "";
     vyraz = "";
 
     aktualizujVyraz();
 
-    const vysledekDiv = document.getElementById("vysledek");
-
     if (vysledekDiv) {
-        vysledekDiv.innerHTML = "";
+        vysledekDiv.textContent = "";
     }
 
     for (let i = 0; i < pocet; i++) {
@@ -20,7 +18,6 @@ function generuj(pocet) {
         const cislo = Math.floor(Math.random() * 10);
 
         const prvek = document.createElement("span");
-
         prvek.className = "cislo";
         prvek.textContent = cislo;
 
@@ -31,7 +28,6 @@ function generuj(pocet) {
             vyraz += cislo;
 
             aktualizujVyraz();
-
         });
 
         kontejner.appendChild(prvek);
@@ -44,14 +40,7 @@ function pridejOperator(operator) {
         return;
     }
 
-    const posledni = vyraz.slice(-1);
-
-    if ("+-.:=".includes(posledni)) {
-        return;
-    }
-
     vyraz += operator;
-
     aktualizujVyraz();
 }
 
@@ -77,7 +66,7 @@ function vymazat() {
     const vysledekDiv = document.getElementById("vysledek");
 
     if (vysledekDiv) {
-        vysledekDiv.innerHTML = "";
+        vysledekDiv.textContent = "";
     }
 }
 
@@ -85,60 +74,41 @@ function zkontroluj() {
 
     const vysledekDiv = document.getElementById("vysledek");
 
-    if (!vysledekDiv) {
-        return;
-    }
-
     if (!vyraz.includes("=")) {
-
-        vysledekDiv.innerHTML =
-            "<span style='color:red'>Chybi znak =</span>";
-
+        vysledekDiv.textContent = "Chybi znak =";
         return;
     }
 
     const casti = vyraz.split("=");
 
     if (casti.length !== 2) {
-
-        vysledekDiv.innerHTML =
-            "<span style='color:red'>Neplatny vyraz</span>";
-
+        vysledekDiv.textContent = "Neplatny vyraz";
         return;
     }
 
-    const leva = casti[0].trim();
-    const prava = casti[1].trim();
-
-    if (prava === "") {
-
-        vysledekDiv.innerHTML =
-            "<span style='color:red'>Chybi vysledek</span>";
-
-        return;
-    }
+    let leva = casti[0].trim();
+    let prava = casti[1].trim();
 
     try {
 
-        let vypocet = leva;
-        
-vypocet = vypocet.replace(/·/g, "*");
-vypocet = vypocet.replace(/:/g, "/");
+        leva = leva.replaceAll("·", "*");
+        leva = leva.replaceAll(".", "*");
+        leva = leva.replaceAll(":", "/");
 
-        console.log("Kontroluji:", vypocet);
+        console.log("Vyhodnocuji:", leva);
 
-        const levaStrana = eval(vypocet);
+        const levaStrana = Function("return (" + leva + ")")();
         const pravaStrana = Number(prava);
 
         if (levaStrana === pravaStrana) {
 
-            vysledekDiv.innerHTML =
-                "<span style='color:green'>Spravne</span>";
+            vysledekDiv.style.color = "green";
+            vysledekDiv.textContent = "Spravne";
 
         } else {
 
-            vysledekDiv.innerHTML =
-                "<span style='color:red'>Spatne</span>";
+            vysledekDiv.style.color = "red";
+            vysledekDiv.textContent = "Spatne";
 
         }
 
@@ -146,8 +116,8 @@ vypocet = vypocet.replace(/:/g, "/");
 
         console.error(e);
 
-        vysledekDiv.innerHTML =
-            "<span style='color:red'>Neplatny vyraz</span>";
+        vysledekDiv.style.color = "red";
+        vysledekDiv.textContent = "Neplatny vyraz";
     }
 }
 
