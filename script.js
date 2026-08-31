@@ -132,7 +132,7 @@ if (historie) {
     vyraz = "";
     aktualizujVyraz();
 
-    document.querySelectorAll(".cislo").forEach(funciton (prvek) {
+    document.querySelectorAll(".cislo").forEach(function (prvek) {
           prvek.classList.remove("selected");
     });
     
