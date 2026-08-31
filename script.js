@@ -12,7 +12,13 @@ function generuj(pocet) {
     kontejner.innerHTML = "";
 
     vyraz = "";
+
     aktualizujVyraz();
+
+    const vysledekDiv = document.getElementById("vysledek");
+    if (vysledekDiv) {
+        vysledekDiv.innerHTML = "";
+    }
 
     for (let i = 0; i < pocet; i++) {
 
@@ -23,18 +29,19 @@ function generuj(pocet) {
         prvek.className = "cislo";
         prvek.textContent = cislo;
 
-   prvek.addEventListener("click", function () {
+        prvek.addEventListener("click", function () {
 
-    prvek.classList.add("selected");
+            prvek.classList.add("selected");
 
-    if (vyraz !== "") {
-        vyraz += " ";
-    }
+            if (vyraz !== "") {
+                vyraz += " ";
+            }
 
-    vyraz += cislo;
+            vyraz += cislo;
 
-    aktualizujVyraz();
-});
+            aktualizujVyraz();
+        });
+
         kontejner.appendChild(prvek);
     }
 }
@@ -68,36 +75,52 @@ function vymazat() {
     });
 
     aktualizujVyraz();
+
+    const vysledekDiv = document.getElementById("vysledek");
+
+    if (vysledekDiv) {
+        vysledekDiv.innerHTML = "";
+    }
 }
 
 function zkontroluj() {
 
     const vysledekDiv = document.getElementById("vysledek");
 
+    if (!vysledekDiv) {
+        console.error("Chybí div s id='vysledek'");
+        return;
+    }
+
     if (!vyraz.includes("=")) {
+
         vysledekDiv.innerHTML =
             "<span style='color:red'>Chybí '='</span>";
+
         return;
     }
 
     const casti = vyraz.split("=");
 
     if (casti.length !== 2) {
+
         vysledekDiv.innerHTML =
             "<span style='color:red'>Neplatný výraz</span>";
+
         return;
     }
 
-    const leva = casti[0];
-    const prava = casti[1];
+    const leva = casti[0].trim();
+    const prava = casti[1].trim();
 
     try {
 
         let vyrazProVypocet = leva;
 
-        vyrazProVypocet = vyrazProVypocet.replace(/:/g, "/");
-        vyrazProVypocet = vyrazProVypocet.replace(/×/g, "*");
+        vyrazProVypocet = vyrazProVypocet.replace(/\s+/g, "");
         vyrazProVypocet = vyrazProVypocet.replace(/·/g, "*");
+        vyrazProVypocet = vyrazProVypocet.replace(/×/g, "*");
+        vyrazProVypocet = vyrazProVypocet.replace(/:/g, "/");
 
         const vysledekLeve = eval(vyrazProVypocet);
         const vysledekPrave = Number(prava);
@@ -116,9 +139,13 @@ function zkontroluj() {
 
     } catch (e) {
 
+        console.error(e);
+
         vysledekDiv.innerHTML =
             "<span style='color:red'>Neplatný výraz</span>";
-
-        console.error(e);
     }
 }
+
+window.onload = function () {
+    generuj(10);
+};
