@@ -37,3 +37,12 @@ button {
     padding: 10px 20px;
     margin: 5px;
 }
+#historie {
+    margin-top: 20px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.zaznam {
+    margin: 6px 0;
+}
