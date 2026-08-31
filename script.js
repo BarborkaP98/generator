@@ -10,9 +10,8 @@ function generuj(pocet) {
     aktualizujVyraz();
 
     const vysledekDiv = document.getElementById("vysledek");
-
     if (vysledekDiv) {
-        vysledekDiv.textContent = "";
+        vysledekDiv.innerHTML = "";
     }
 
     for (let i = 0; i < pocet; i++) {
@@ -28,10 +27,6 @@ function generuj(pocet) {
 
             prvek.classList.add("selected");
 
-            if (vyraz !== "") {
-                vyraz += " ";
-            }
-
             vyraz += cislo;
 
             aktualizujVyraz();
@@ -43,7 +38,13 @@ function generuj(pocet) {
 
 function pridejOperator(operator) {
 
-    if (vyraz.trim() === "") {
+    if (vyraz === "") {
+        return;
+    }
+
+    const posledni = vyraz.slice(-1);
+
+    if ("+-·:=".includes(posledni)) {
         return;
     }
 
@@ -65,7 +66,7 @@ function vymazat() {
 
     vyraz = "";
 
-    document.querySelectorAll(".cislo").forEach(function (prvek) {
+    document.querySelectorAll(".cislo").forEach(prvek => {
         prvek.classList.remove("selected");
     });
 
@@ -74,7 +75,7 @@ function vymazat() {
     const vysledekDiv = document.getElementById("vysledek");
 
     if (vysledekDiv) {
-        vysledekDiv.textContent = "";
+        vysledekDiv.innerHTML = "";
     }
 }
 
@@ -82,51 +83,34 @@ function zkontroluj() {
 
     const vysledekDiv = document.getElementById("vysledek");
 
-    if (!vysledekDiv) {
-        return;
-    }
-
     if (!vyraz.includes("=")) {
-
         vysledekDiv.innerHTML =
             "<span style='color:red'>Chybí znak =</span>";
-
         return;
     }
 
     const casti = vyraz.split("=");
 
     if (casti.length !== 2) {
-
         vysledekDiv.innerHTML =
             "<span style='color:red'>Neplatný výraz</span>";
-
         return;
     }
 
-    const leva = casti[0].trim();
-    const prava = casti[1].trim();
-
-    if (prava === "") {
-
-        vysledekDiv.innerHTML =
-            "<span style='color:red'>Chybí výsledek</span>";
-
-        return;
-    }
+    const leva = casti[0];
+    const prava = casti[1];
 
     try {
 
-        let vyrazProVypocet = leva;
+        let vypocet = leva;
 
-        vyrazProVypocet = vyrazProVypocet.replace(/\s+/g, "");
-        vyrazProVypocet = vyrazProVypocet.replace(/·/g, "*");
-        vyrazProVypocet = vyrazProVypocet.replace(/:/g, "/");
+        vypocet = vypocet.replace(/·/g, "*");
+        vypocet = vypocet.replace(/:/g, "/");
 
-        const vysledekLeve = eval(vyrazProVypocet);
-        const vysledekPrave = Number(prava);
+        const levaStrana = eval(vypocet);
+        const pravaStrana = Number(prava);
 
-        if (vysledekLeve === vysledekPrave) {
+        if (levaStrana === pravaStrana) {
 
             vysledekDiv.innerHTML =
                 "<span style='color:green'>✅ Správně</span>";
