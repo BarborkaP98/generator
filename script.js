@@ -72,16 +72,19 @@ function vymazat() {
 
 function zkontroluj() {
 
+    const vysledekDiv = document.getElementById("vysledek");
+
     if (!vyraz.includes("=")) {
-       document.getElementById("vysledek").textContent =
-    "Chybí '='";
+        vysledekDiv.innerHTML =
+            "<span style='color:red'>Chybí '='</span>";
         return;
     }
 
     const casti = vyraz.split("=");
 
     if (casti.length !== 2) {
-        alert("Neplatný výraz");
+        vysledekDiv.innerHTML =
+            "<span style='color:red'>Neplatný výraz</span>";
         return;
     }
 
@@ -90,29 +93,32 @@ function zkontroluj() {
 
     try {
 
-        const vyrazProVypocet = leva.replace(/:/g, "/");
+        let vyrazProVypocet = leva;
+
+        vyrazProVypocet = vyrazProVypocet.replace(/:/g, "/");
+        vyrazProVypocet = vyrazProVypocet.replace(/×/g, "*");
+        vyrazProVypocet = vyrazProVypocet.replace(/·/g, "*");
+
         const vysledekLeve = eval(vyrazProVypocet);
         const vysledekPrave = Number(prava);
 
         if (vysledekLeve === vysledekPrave) {
 
-           document.getElementById("vysledek").innerHTML =
-    "<span style='color:green'>✅ Správně</span>";
+            vysledekDiv.innerHTML =
+                "<span style='color:green'>✅ Správně</span>";
+
         } else {
 
-            document.getElementById("vysledek").innerHTML =
-    "<span style='color:red'>❌ Špatně</span>";
+            vysledekDiv.innerHTML =
+                "<span style='color:red'>❌ Špatně</span>";
 
         }
 
     } catch (e) {
 
-        console.error(e);
-        alert("Neplatný výraz");
+        vysledekDiv.innerHTML =
+            "<span style='color:red'>Neplatný výraz</span>";
 
+        console.error(e);
     }
 }
-
-window.onload = function () {
-    generuj(10);
-};
