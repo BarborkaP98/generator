@@ -10,6 +10,7 @@ function generuj(pocet) {
     aktualizujVyraz();
 
     const vysledekDiv = document.getElementById("vysledek");
+
     if (vysledekDiv) {
         vysledekDiv.textContent = "";
     }
@@ -34,7 +35,6 @@ function generuj(pocet) {
             vyraz += cislo;
 
             aktualizujVyraz();
-
         });
 
         kontejner.appendChild(prvek);
@@ -43,7 +43,7 @@ function generuj(pocet) {
 
 function pridejOperator(operator) {
 
-    if (vyraz.length === 0) {
+    if (vyraz.trim() === "") {
         return;
     }
 
@@ -82,22 +82,38 @@ function zkontroluj() {
 
     const vysledekDiv = document.getElementById("vysledek");
 
+    if (!vysledekDiv) {
+        return;
+    }
+
     if (!vyraz.includes("=")) {
+
         vysledekDiv.innerHTML =
-            "<span style='color:red'>Chybí =</span>";
+            "<span style='color:red'>Chybí znak =</span>";
+
         return;
     }
 
     const casti = vyraz.split("=");
 
     if (casti.length !== 2) {
+
         vysledekDiv.innerHTML =
             "<span style='color:red'>Neplatný výraz</span>";
+
         return;
     }
 
     const leva = casti[0].trim();
     const prava = casti[1].trim();
+
+    if (prava === "") {
+
+        vysledekDiv.innerHTML =
+            "<span style='color:red'>Chybí výsledek</span>";
+
+        return;
+    }
 
     try {
 
