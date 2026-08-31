@@ -121,9 +121,9 @@ function zkontroluj() {
     try {
 
         let vypocet = leva;
-
-        vypocet = vypocet.replace(/\./g, "*");
-        vypocet = vypocet.replace(/:/g, "/");
+        
+vypocet = vypocet.replace(/·/g, "*");
+vypocet = vypocet.replace(/:/g, "/");
 
         console.log("Kontroluji:", vypocet);
 
