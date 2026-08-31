@@ -1,73 +1,63 @@
 let vyraz = "";
 
 function generuj(pocet) {
+
     const kontejner = document.getElementById("cisla");
-    const vysledekDiv = document.getElementById("vysledek");
 
     kontejner.innerHTML = "";
     vyraz = "";
 
     aktualizujVyraz();
 
-    if (vysledekDiv) {
-        vysledekDiv.textContent = "";
-    }
+    document.getElementById("vysledek").textContent = "";
 
     for (let i = 0; i < pocet; i++) {
 
         const cislo = Math.floor(Math.random() * 10);
 
         const prvek = document.createElement("span");
+
         prvek.className = "cislo";
         prvek.textContent = cislo;
 
-        prvek.addEventListener("click", function () {
+        prvek.onclick = function () {
 
             prvek.classList.add("selected");
 
             vyraz += cislo;
 
             aktualizujVyraz();
-        });
+        };
 
         kontejner.appendChild(prvek);
     }
 }
 
-function pridejOperator(operator) {
+function pridejOperator(op) {
 
-    if (vyraz === "") {
-        return;
-    }
+    if (vyraz.length === 0) return;
 
-    vyraz += operator;
+    vyraz += op;
+
     aktualizujVyraz();
 }
 
 function aktualizujVyraz() {
 
-    const pole = document.getElementById("vyraz");
-
-    if (pole) {
-        pole.textContent = vyraz;
-    }
+    document.getElementById("vyraz").textContent = vyraz;
 }
 
 function vymazat() {
 
     vyraz = "";
 
-    document.querySelectorAll(".cislo").forEach(function (prvek) {
+    document.getElementById("vyraz").textContent = "";
+
+    document.getElementById("vysledek").textContent = "";
+
+    document.querySelectorAll(".cislo").forEach(prvek => {
         prvek.classList.remove("selected");
     });
-
-    aktualizujVyraz();
-
-    const vysledekDiv = document.getElementById("vysledek");
-
-    if (vysledekDiv) {
-        vysledekDiv.textContent = "";
-    }
 }
 
 function zkontroluj() {
@@ -75,49 +65,72 @@ function zkontroluj() {
     const vysledekDiv = document.getElementById("vysledek");
 
     if (!vyraz.includes("=")) {
-        vysledekDiv.textContent = "Chybi znak =";
+        vysledekDiv.innerHTML = "<span style='color:red'>Chybí '='</span>";
         return;
     }
 
     const casti = vyraz.split("=");
 
     if (casti.length !== 2) {
-        vysledekDiv.textContent = "Neplatny vyraz";
+        vysledekDiv.innerHTML = "<span style='color:red'>Neplatný výraz</span>";
         return;
     }
 
-    let leva = casti[0].trim();
-    let prava = casti[1].trim();
+    const leva = casti[0];
+    const prava = Number(casti[1]);
 
-    try {
+    let operator = null;
 
-        leva = leva.replaceAll("·", "*");
-        leva = leva.replaceAll(".", "*");
-        leva = leva.replaceAll(":", "/");
+    if (leva.includes("+")) operator = "+";
+    if (leva.includes("-")) operator = "-";
+    if (leva.includes("×")) operator = "×";
+    if (leva.includes(":")) operator = ":";
 
-        console.log("Vyhodnocuji:", leva);
+    if (!operator) {
+        vysledekDiv.innerHTML = "<span style='color:red'>Chybí operátor</span>";
+        return;
+    }
 
-        const levaStrana = Function("return (" + leva + ")")();
-        const pravaStrana = Number(prava);
+    const hodnoty = leva.split(operator);
 
-        if (levaStrana === pravaStrana) {
+    if (hodnoty.length !== 2) {
+        vysledekDiv.innerHTML = "<span style='color:red'>Neplatný výraz</span>";
+        return;
+    }
 
-            vysledekDiv.style.color = "green";
-            vysledekDiv.textContent = "Spravne";
+    const a = Number(hodnoty[0]);
+    const b = Number(hodnoty[1]);
 
-        } else {
+    let spravne;
 
-            vysledekDiv.style.color = "red";
-            vysledekDiv.textContent = "Spatne";
+    switch (operator) {
 
-        }
+        case "+":
+            spravne = a + b;
+            break;
 
-    } catch (e) {
+        case "-":
+            spravne = a - b;
+            break;
 
-        console.error(e);
+        case "×":
+            spravne = a * b;
+            break;
 
-        vysledekDiv.style.color = "red";
-        vysledekDiv.textContent = "Neplatny vyraz";
+        case ":":
+            spravne = a / b;
+            break;
+    }
+
+    if (spravne === prava) {
+
+        vysledekDiv.innerHTML =
+            "<span style='color:green'>✅ Správně</span>";
+
+    } else {
+
+        vysledekDiv.innerHTML =
+            "<span style='color:red'>❌ Špatně</span>";
     }
 }
 
