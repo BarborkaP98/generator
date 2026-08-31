@@ -8,34 +8,33 @@
 </head>
 <body>
 
-<div class="container">
+<h1>Abaku generátor</h1>
 
-    <h1>Abaku generátor</h1>
+<div class="buttons">
+    <button onclick="generuj(10)">10 číslic</button>
+    <button onclick="generuj(13)">13 číslic</button>
+    <button onclick="generuj(15)">15 číslic</button>
+    <button onclick="generuj(20)">20 číslic</button>
+</div>
 
-    <div class="buttons">
-        <button onclick="generuj(10)">10 číslic</button>
-        <button onclick="generuj(13)">13 číslic</button>
-        <button onclick="generuj(15)">15 číslic</button>
-        <button onclick="generuj(20)">20 číslic</button>
-    </div>
+<div id="cisla"></div>
 
-    <div id="cisla"></div>
+<h2>Sestavený výraz</h2>
 
-    <h2>Sestavený výraz</h2>
+<div id="vyraz"></div>
 
-    <div id="vyraz"></div>
-    <div id="vysledek"></div>
-    <div class="operators">
-        <button onclick="pridejOperator('+')">+</button>
-        <button onclick="pridejOperator('-')">−</button>
-        <button onclick="pridejOperator('⋅')">·</button>
-        <button onclick="pridejOperator(':')">:</button>
-        <button onclick="pridejOperator('=')">=</button>
-    </div>
+<div id="vysledek"></div>
 
-    <button onclick="vymazat()">
-        Vymazat
-    </button>
+<div class="operators">
+    <button onclick="pridejOperator('+')">+</button>
+    <button onclick="pridejOperator('-')">−</button>
+    <button onclick="pridejOperator('×')">×</button>
+    <button onclick="pridejOperator(':')">:</button>
+    <button onclick="pridejOperator('=')">=</button>
+</div>
+
+<div class="buttons">
+    <button onclick="vymazat()">Vymazat</button>
     <button onclick="zkontroluj()">Zkontrolovat</button>
 </div>
 
