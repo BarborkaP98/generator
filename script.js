@@ -10,6 +10,7 @@ function generuj(pocet) {
     aktualizujVyraz();
 
     const vysledekDiv = document.getElementById("vysledek");
+
     if (vysledekDiv) {
         vysledekDiv.innerHTML = "";
     }
@@ -30,6 +31,7 @@ function generuj(pocet) {
             vyraz += cislo;
 
             aktualizujVyraz();
+
         });
 
         kontejner.appendChild(prvek);
@@ -44,7 +46,7 @@ function pridejOperator(operator) {
 
     const posledni = vyraz.slice(-1);
 
-    if ("+-·:=".includes(posledni)) {
+    if ("+-.:=".includes(posledni)) {
         return;
     }
 
@@ -66,7 +68,7 @@ function vymazat() {
 
     vyraz = "";
 
-    document.querySelectorAll(".cislo").forEach(prvek => {
+    document.querySelectorAll(".cislo").forEach(function (prvek) {
         prvek.classList.remove("selected");
     });
 
@@ -83,29 +85,47 @@ function zkontroluj() {
 
     const vysledekDiv = document.getElementById("vysledek");
 
+    if (!vysledekDiv) {
+        return;
+    }
+
     if (!vyraz.includes("=")) {
+
         vysledekDiv.innerHTML =
-            "<span style='color:red'>Chybí znak =</span>";
+            "<span style='color:red'>Chybi znak =</span>";
+
         return;
     }
 
     const casti = vyraz.split("=");
 
     if (casti.length !== 2) {
+
         vysledekDiv.innerHTML =
-            "<span style='color:red'>Neplatný výraz</span>";
+            "<span style='color:red'>Neplatny vyraz</span>";
+
         return;
     }
 
-    const leva = casti[0];
-    const prava = casti[1];
+    const leva = casti[0].trim();
+    const prava = casti[1].trim();
+
+    if (prava === "") {
+
+        vysledekDiv.innerHTML =
+            "<span style='color:red'>Chybi vysledek</span>";
+
+        return;
+    }
 
     try {
 
         let vypocet = leva;
 
-        vypocet = vypocet.replace(/·/g, "*");
+        vypocet = vypocet.replace(/\./g, "*");
         vypocet = vypocet.replace(/:/g, "/");
+
+        console.log("Kontroluji:", vypocet);
 
         const levaStrana = eval(vypocet);
         const pravaStrana = Number(prava);
@@ -113,12 +133,12 @@ function zkontroluj() {
         if (levaStrana === pravaStrana) {
 
             vysledekDiv.innerHTML =
-                "<span style='color:green'>✅ Správně</span>";
+                "<span style='color:green'>Spravne</span>";
 
         } else {
 
             vysledekDiv.innerHTML =
-                "<span style='color:red'>❌ Špatně</span>";
+                "<span style='color:red'>Spatne</span>";
 
         }
 
@@ -127,7 +147,7 @@ function zkontroluj() {
         console.error(e);
 
         vysledekDiv.innerHTML =
-            "<span style='color:red'>Neplatný výraz</span>";
+            "<span style='color:red'>Neplatny vyraz</span>";
     }
 }
 
