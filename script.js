@@ -3,16 +3,16 @@ let vyraz = "";
 function generuj(pocet) {
 
     const kontejner = document.getElementById("cisla");
+    const vysledekDiv = document.getElementById("vysledek");
 
     kontejner.innerHTML = "";
     vyraz = "";
 
     aktualizujVyraz();
 
-    const vysledekDiv = document.getElementById("vysledek");
-
     if (vysledekDiv) {
         vysledekDiv.textContent = "";
+        vysledekDiv.style.color = "";
     }
 
     for (let i = 0; i < pocet; i++) {
@@ -20,7 +20,6 @@ function generuj(pocet) {
         const cislo = Math.floor(Math.random() * 10);
 
         const prvek = document.createElement("span");
-
         prvek.className = "cislo";
         prvek.textContent = cislo;
 
@@ -31,6 +30,7 @@ function generuj(pocet) {
             vyraz += cislo;
 
             aktualizujVyraz();
+
         });
 
         kontejner.appendChild(prvek);
@@ -44,7 +44,6 @@ function pridejOperator(operator) {
     }
 
     vyraz += operator;
-
     aktualizujVyraz();
 }
 
@@ -71,6 +70,7 @@ function vymazat() {
 
     if (vysledekDiv) {
         vysledekDiv.textContent = "";
+        vysledekDiv.style.color = "";
     }
 }
 
@@ -78,7 +78,12 @@ function zkontroluj() {
 
     const vysledekDiv = document.getElementById("vysledek");
 
+    if (!vysledekDiv) {
+        return;
+    }
+
     if (!vyraz.includes("=")) {
+        vysledekDiv.style.color = "red";
         vysledekDiv.textContent = "Chybi znak =";
         return;
     }
@@ -86,6 +91,7 @@ function zkontroluj() {
     const casti = vyraz.split("=");
 
     if (casti.length !== 2) {
+        vysledekDiv.style.color = "red";
         vysledekDiv.textContent = "Neplatny vyraz";
         return;
     }
@@ -93,13 +99,19 @@ function zkontroluj() {
     let leva = casti[0].trim();
     let prava = casti[1].trim();
 
+    if (prava === "") {
+        vysledekDiv.style.color = "red";
+        vysledekDiv.textContent = "Chybi vysledek";
+        return;
+    }
+
     try {
 
-        leva = leva.replace(/·/g, "*");
-        leva = leva.replace(/:/g, "/");
+        leva = leva.replaceAll("·", "*");
+        leva = leva.replaceAll(":", "/");
 
         const levaStrana = Function(
-            "return (" + leva + ")"
+            "return (" + leva + ");"
         )();
 
         const pravaStrana = Number(prava);
@@ -113,11 +125,10 @@ function zkontroluj() {
 
             vysledekDiv.style.color = "red";
             vysledekDiv.textContent = "Spatne";
+
         }
 
-    } catch (e) {
-
-        console.error(e);
+    } catch {
 
         vysledekDiv.style.color = "red";
         vysledekDiv.textContent = "Neplatny vyraz";
