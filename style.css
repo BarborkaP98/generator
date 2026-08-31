@@ -13,7 +13,6 @@ body {
     font-weight: bold;
     margin: 15px;
     cursor: pointer;
-    background-color: none;
 }
 
 .selected {
