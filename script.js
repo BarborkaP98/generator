@@ -119,23 +119,27 @@ function zkontroluj() {
 if (levaStrana === pravaStrana) {
 
     vysledekDiv.style.color = "green";
-    vysledekDiv.textContent = "Spravne";
+    vysledekDiv.textContent = "Správně";
 
     const historie = document.getElementById("historie");
-
+if (historie) {
     const novyZaznam = document.createElement("div");
     novyZaznam.className = "zaznam";
     novyZaznam.textContent = vyraz;
 
     historie.prepend(novyZaznam);
-
+}
     vyraz = "";
     aktualizujVyraz();
 
+    document.querySelectorAll(".cislo").forEach(funciton (prvek) {
+                                                prvek.classList.remove("selected");
+    });
+    
 } else {
 
     vysledekDiv.style.color = "red";
-    vysledekDiv.textContent = "Spatne";
+    vysledekDiv.textContent = "Špatně";
 
 }
 
