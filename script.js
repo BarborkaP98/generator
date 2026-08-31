@@ -9,7 +9,11 @@ function generuj(pocet) {
 
     aktualizujVyraz();
 
-    document.getElementById("vysledek").textContent = "";
+    const vysledekDiv = document.getElementById("vysledek");
+
+    if (vysledekDiv) {
+        vysledekDiv.textContent = "";
+    }
 
     for (let i = 0; i < pocet; i++) {
 
@@ -20,44 +24,54 @@ function generuj(pocet) {
         prvek.className = "cislo";
         prvek.textContent = cislo;
 
-        prvek.onclick = function () {
+        prvek.addEventListener("click", function () {
 
             prvek.classList.add("selected");
 
             vyraz += cislo;
 
             aktualizujVyraz();
-        };
+        });
 
         kontejner.appendChild(prvek);
     }
 }
 
-function pridejOperator(op) {
+function pridejOperator(operator) {
 
-    if (vyraz.length === 0) return;
+    if (vyraz === "") {
+        return;
+    }
 
-    vyraz += op;
+    vyraz += operator;
 
     aktualizujVyraz();
 }
 
 function aktualizujVyraz() {
 
-    document.getElementById("vyraz").textContent = vyraz;
+    const pole = document.getElementById("vyraz");
+
+    if (pole) {
+        pole.textContent = vyraz;
+    }
 }
 
 function vymazat() {
 
     vyraz = "";
 
-    document.getElementById("vyraz").textContent = "";
-
-    document.getElementById("vysledek").textContent = "";
-
-    document.querySelectorAll(".cislo").forEach(prvek => {
+    document.querySelectorAll(".cislo").forEach(function (prvek) {
         prvek.classList.remove("selected");
     });
+
+    aktualizujVyraz();
+
+    const vysledekDiv = document.getElementById("vysledek");
+
+    if (vysledekDiv) {
+        vysledekDiv.textContent = "";
+    }
 }
 
 function zkontroluj() {
@@ -65,72 +79,48 @@ function zkontroluj() {
     const vysledekDiv = document.getElementById("vysledek");
 
     if (!vyraz.includes("=")) {
-        vysledekDiv.innerHTML = "<span style='color:red'>Chybí '='</span>";
+        vysledekDiv.textContent = "Chybi znak =";
         return;
     }
 
     const casti = vyraz.split("=");
 
     if (casti.length !== 2) {
-        vysledekDiv.innerHTML = "<span style='color:red'>Neplatný výraz</span>";
+        vysledekDiv.textContent = "Neplatny vyraz";
         return;
     }
 
-    const leva = casti[0];
-    const prava = Number(casti[1]);
+    let leva = casti[0].trim();
+    let prava = casti[1].trim();
 
-    let operator = null;
+    try {
 
-    if (leva.includes("+")) operator = "+";
-    if (leva.includes("-")) operator = "-";
-    if (leva.includes("×")) operator = "×";
-    if (leva.includes(":")) operator = ":";
+        leva = leva.replace(/·/g, "*");
+        leva = leva.replace(/:/g, "/");
 
-    if (!operator) {
-        vysledekDiv.innerHTML = "<span style='color:red'>Chybí operátor</span>";
-        return;
-    }
+        const levaStrana = Function(
+            "return (" + leva + ")"
+        )();
 
-    const hodnoty = leva.split(operator);
+        const pravaStrana = Number(prava);
 
-    if (hodnoty.length !== 2) {
-        vysledekDiv.innerHTML = "<span style='color:red'>Neplatný výraz</span>";
-        return;
-    }
+        if (levaStrana === pravaStrana) {
 
-    const a = Number(hodnoty[0]);
-    const b = Number(hodnoty[1]);
+            vysledekDiv.style.color = "green";
+            vysledekDiv.textContent = "Spravne";
 
-    let spravne;
+        } else {
 
-    switch (operator) {
+            vysledekDiv.style.color = "red";
+            vysledekDiv.textContent = "Spatne";
+        }
 
-        case "+":
-            spravne = a + b;
-            break;
+    } catch (e) {
 
-        case "-":
-            spravne = a - b;
-            break;
+        console.error(e);
 
-        case "×":
-            spravne = a * b;
-            break;
-
-        case ":":
-            spravne = a / b;
-            break;
-    }
-
-    if (spravne === prava) {
-
-        vysledekDiv.innerHTML =
-            "<span style='color:green'>✅ Správně</span>";
-
-    } else {
-
-        vysledekDiv.innerHTML =
-            "<span style='color:red'>❌ Špatně</span>";
+        vysledekDiv.style.color = "red";
+        vysledekDiv.textContent = "Neplatny vyraz";
     }
 }
 
