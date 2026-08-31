@@ -133,7 +133,7 @@ if (historie) {
     aktualizujVyraz();
 
     document.querySelectorAll(".cislo").forEach(funciton (prvek) {
-                                                prvek.classList.remove("selected");
+          prvek.classList.remove("selected");
     });
     
 } else {
