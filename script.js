@@ -4,20 +4,14 @@ function generuj(pocet) {
 
     const kontejner = document.getElementById("cisla");
 
-    if (!kontejner) {
-        console.error("Chybí element s id='cisla'");
-        return;
-    }
-
     kontejner.innerHTML = "";
-
     vyraz = "";
 
     aktualizujVyraz();
 
     const vysledekDiv = document.getElementById("vysledek");
     if (vysledekDiv) {
-        vysledekDiv.innerHTML = "";
+        vysledekDiv.textContent = "";
     }
 
     for (let i = 0; i < pocet; i++) {
@@ -40,6 +34,7 @@ function generuj(pocet) {
             vyraz += cislo;
 
             aktualizujVyraz();
+
         });
 
         kontejner.appendChild(prvek);
@@ -79,7 +74,7 @@ function vymazat() {
     const vysledekDiv = document.getElementById("vysledek");
 
     if (vysledekDiv) {
-        vysledekDiv.innerHTML = "";
+        vysledekDiv.textContent = "";
     }
 }
 
@@ -87,26 +82,17 @@ function zkontroluj() {
 
     const vysledekDiv = document.getElementById("vysledek");
 
-    if (!vysledekDiv) {
-        console.error("Chybí div s id='vysledek'");
-        return;
-    }
-
     if (!vyraz.includes("=")) {
-
         vysledekDiv.innerHTML =
-            "<span style='color:red'>Chybí '='</span>";
-
+            "<span style='color:red'>Chybí =</span>";
         return;
     }
 
     const casti = vyraz.split("=");
 
     if (casti.length !== 2) {
-
         vysledekDiv.innerHTML =
             "<span style='color:red'>Neplatný výraz</span>";
-
         return;
     }
 
@@ -119,7 +105,6 @@ function zkontroluj() {
 
         vyrazProVypocet = vyrazProVypocet.replace(/\s+/g, "");
         vyrazProVypocet = vyrazProVypocet.replace(/·/g, "*");
-        vyrazProVypocet = vyrazProVypocet.replace(/×/g, "*");
         vyrazProVypocet = vyrazProVypocet.replace(/:/g, "/");
 
         const vysledekLeve = eval(vyrazProVypocet);
