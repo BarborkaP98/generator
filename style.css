@@ -1,52 +1,39 @@
 body {
-    font-family: Arial, sans-serif;
     text-align: center;
+    font-family: Arial, sans-serif;
     background: #f4f4f4;
-    padding: 30px;
 }
 
-h1 {
-    margin-bottom: 40px;
+#cisla {
+    margin: 40px 0;
+}
+
+.cislo {
+    font-size: 60px;
+    font-weight: bold;
+    margin: 15px;
+    cursor: pointer;
+}
+
+.selected {
+    background: gold;
+    border-radius: 10px;
+    padding: 5px 10px;
+}
+
+#vyraz {
+    font-size: 40px;
+    font-weight: bold;
+    margin: 20px;
+}
+
+#vysledek {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 20px;
 }
 
 button {
     padding: 10px 20px;
     margin: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-#cisla {
-    margin-top: 40px;
-}
-
-.cislo {
-    display: inline-block;
-    margin: 25px;
-    font-size: 48px;
-    font-weight: bold;
-    cursor: pointer;
-    user-select: none;
-    transition: 0.2s;
-}
-
-.selected {
-    background-color: gold;
-    color: black;
-    border-radius: 8px;
-    padding: 5px 10px;
-}
-
-#vyraz {
-    margin-top: 40px;
-    min-height: 50px;
-    font-size: 36px;
-    font-weight: bold;
-}
-
-#vysledek {
-    margin-top: 15px;
-    min-height: 30px;
-    font-size: 28px;
-    font-weight: bold;
 }
