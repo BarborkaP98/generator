@@ -47,7 +47,20 @@ function pridejOperator(operator) {
         return;
     }
 
+    const posledni = vyraz.slice(-1);
+
+    if (
+        posledni === "+" ||
+        posledni === "-" ||
+        posledni === "·" ||
+        posledni === ":" ||
+        posledni === "="
+    ) {
+        return;
+    }
+
     vyraz += operator;
+
     aktualizujVyraz();
 }
 
