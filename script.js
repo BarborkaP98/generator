@@ -9,7 +9,11 @@ function generuj(pocet) {
     vyraz = "";
 
     aktualizujVyraz();
+    const historie = document.getElementById("historie");
 
+    if (historie) {
+    historie.innerHTML = "";
+}
     if (vysledekDiv) {
         vysledekDiv.textContent = "";
         vysledekDiv.style.color = "";
